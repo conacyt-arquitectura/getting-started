@@ -82,7 +82,7 @@ Sistema Nacional de Investigadores
 ### Autenticación
 Obtener el header `x-auth-token` de la respuesta de la siguiente petición:
 
-		curl -v -XPOST -H "Content-type: application/json" -d '{"username": "personal.conacyt@gmail.com", "password": "dGVtcG9yYWwxREVWJTQw", "grecaptcharesponse": ""}' 'http://172.22.13.228:7780/generador-api/auth/login'
+		curl -v -XPOST -H "Content-type: application/json" -d '{"username": "username", "password": "password", "grecaptcharesponse": ""}' 'http://172.22.13.228:7780/generador-api/auth/login'
 
 ## FAQ
 
