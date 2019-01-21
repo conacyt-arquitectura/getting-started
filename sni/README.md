@@ -3,39 +3,37 @@
 Sistema Nacional de Investigadores
 
 ## Requerimientos
-- SVN client
+- Cliente SVN
 - [Código fuente SNI](http://172.16.6.194:8888/conacyt-svn/CYT_sni/SNI/)
 - JDK 7 u79
 - Maven
-- WebLogic
-- [Driver JDBC Oracle 11.2.0.1](https://www.oracle.com/technetwork/apps-tech/jdbc-112010-090769.html)  
-			
-		mvn install:install-file -Dfile=ojdbc6.jar -DgroupId=com.oracle -DartifactId=xdb6 -Dversion=11.2.0.4 -Dpackaging=jar
 
-- [Driver XDB6 Oracle](https://www.oracle.com/technetwork/apps-tech/jdbc-112010-090769.html)
-		
-		mvn install:install-file -Dfile=xdb6.jar -DgroupId=com.oracle -DartifactId=xdb6 -Dversion=11.2.0.4 -Dpackaging=jar
-
-- settings.xml (sobreescribe configuraciones de usuario para Maven)
+Los siguientes recursos se proporcionan por USB:  
+- Servidor WebLogic (`wls1213_dev.zip`)
+- `settings.xml` (configuraciones de Maven)
+- Carpeta `configfiles`
 
 ## Instalación
 - Descargar el código fuente:
 	
-		svn checkout http://172.16.6.194:8888/conacyt-svn/CYT_sni/SNI/trunk SNI
+		svn checkout http://172.16.6.194:8888/conacyt-svn/CYT_sni/SNI/trunk sni
 
-- Copiar el archivo `settings.xml` a la carpeta `{MI_CARPETA_DE_USUARIO/.m2/}`
+- Copiar el archivo `settings.xml` a la carpeta `{MI_CARPETA_DE_USUARIO/.m2/}`. Eso sobreescribe configuraciones de Maven a nivel de usuario
 
-- Crear las siguientes variables de entorno:
-	- `MIIC_CONFIG={DIRECTORIO configfiles}`
+- Crear las variables de entorno requeridas:
+	- `MIIC_CONFIG={DIRECTORIO configfiles}` (ruta donde copiaste la carpeta `configfiles`)
 	- `APP_LOGS={CUALQUIER DIRECTORIO QUE CONTENGA UNA SUBCARPETA 'sni'}`
+
 - Instalar el Servidor WebLogic 
 	1. Descomprimir `wls1213_dev.zip`
 	2. Seguir las instrucciones del `README.txt` para Linux o `README_WIN.txt` para Windows
+
 - [Cambiar el puerto del Servidor WebLogic](http://localhost:7001/console/console.portal?_nfpb=true&_pageLabel=CoreServerServerTablePage)
 	1. [Entorno]/[Servidores]
 	2. Clic en [AdminServer]
 	3. Puerto de recepción: `8004`
 	4. [Guardar]
+
 - [Crear JNDI](http://localhost:8004/console/console.portal?_nfpb=true&_pageLabel=GlobalJDBCDataSourceTablePage):
 	1. Servicios/Orígenes de Datos
 	2. [Nuevo]/[Origen de Datos Genérico]
@@ -49,23 +47,27 @@ Sistema Nacional de Investigadores
 		- Contraseña: 
 		- Seleccionar destinos: __Marcar la casilla de "AdminServer"__
 		- [Terminar]
+
 - [Crear un servidor JMS](http://localhost:8004/console/console.portal?_nfpb=true&_pageLabel=JmsServerJMSServerTablePage):
 	1. [Servicios]/[Mensajes]/[Servidores JMS]
 	2. [Nuevo]
 	3. Seleccionar Destinos/Destino: [AdminServer]
 	4. [Terminar]
+
 - [Crear un nuevo Módulo JMS](http://localhost:8004/console/console.portal?_nfpb=true&_pageLabel=JmsModulesTablePage)
 	1. [Servidores]/[Mensajes]/[Módulos JMS]
 	1. [Nuevo]
 	2. Nombre:
 	3. Destinos: __Marcar la casilla de "AdminServer"__
 	4. [Terminar]
+
 - Crear una fábrica de conexiones: 
 	1. Clic en el módulo JMS recién creado
 	2. [Nuevo]
 	3. Marcar la opción __Fábrica de conexiones__
 	4. Nombre del JNDI: `jms/DocuQueueConnectionFactory`
 	5. Terminar
+
 - Crear colas de mensajes
 	- con los nombres de JNDI:
 		- `jms/DictamenDocsQueue`
@@ -80,6 +82,7 @@ Sistema Nacional de Investigadores
 	7. [Terminar]
 		
 ## Uso
+- Desplegar el archivo `sni/miic-sni-web` en el servidor Weblogic manualmente o utilizar un plugin para tu IDE que realice esa tarea
 
 ### Autenticación
 Obtener el header `x-auth-token` de la respuesta de la siguiente petición:
@@ -87,4 +90,12 @@ Obtener el header `x-auth-token` de la respuesta de la siguiente petición:
 		curl -v -XPOST -H "Content-type: application/json" -d '{"username": "username", "password": "password", "grecaptcharesponse": ""}' 'http://172.22.13.228:7780/generador-api/auth/login'
 
 ## FAQ
+- **Faltan dependencias de Oracle `ojdbc` y/o `xdb6`**  
+	También puedes instalar las dependencias de Oracle a mano:
+	- [Driver JDBC Oracle 11.2.0.1](https://www.oracle.com/technetwork/apps-tech/jdbc-112010-090769.html)  
+			
+		mvn install:install-file -Dfile=ojdbc6.jar -DgroupId=com.oracle -DartifactId=xdb6 -Dversion=11.2.0.4 -Dpackaging=jar
 
+	- [Driver XDB6 Oracle](https://www.oracle.com/technetwork/apps-tech/jdbc-112010-090769.html)
+		
+		mvn install:install-file -Dfile=xdb6.jar -DgroupId=com.oracle -DartifactId=xdb6 -Dversion=11.2.0.4 -Dpackaging=jar
