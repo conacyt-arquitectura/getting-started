@@ -23,6 +23,8 @@ Sistema Nacional de Investigadores
 	
 		svn checkout http://172.16.6.194:8888/conacyt-svn/CYT_sni/SNI/trunk SNI
 
+- Copiar el archivo `settings.xml` a la carpeta `{MI_CARPETA_DE_USUARIO/.m2/}`
+
 - Crear las siguientes variables de entorno:
 	- `MIIC_CONFIG={DIRECTORIO configfiles}`
 	- `APP_LOGS={CUALQUIER DIRECTORIO QUE CONTENGA UNA SUBCARPETA 'sni'}`
