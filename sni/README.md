@@ -7,6 +7,7 @@ Sistema Nacional de Investigadores
 - [Código fuente SNI](http://172.16.6.194:8888/conacyt-svn/CYT_sni/SNI/)
 - JDK 7 u79
 - Maven
+- [Oracle WebLogic Server 12.1.3 (development only)](http://download.oracle.com/otn/nt/middleware/12c/wls/1213/wls1213_dev_update3.zip)
 
 Los siguientes recursos se proporcionan por USB:  
 - Servidor WebLogic (`wls1213_dev.zip`)
