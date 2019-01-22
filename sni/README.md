@@ -10,7 +10,6 @@ Sistema Nacional de Investigadores
 - [Oracle WebLogic Server 12.1.3 (development only)](http://download.oracle.com/otn/nt/middleware/12c/wls/1213/wls1213_dev_update3.zip)
 
 Los siguientes recursos se proporcionan por USB:  
-- Servidor WebLogic (`wls1213_dev.zip`)
 - `settings.xml` (configuraciones de Maven)
 - Carpeta `configfiles`
 
