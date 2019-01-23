@@ -8,6 +8,7 @@ Sistema Nacional de Investigadores
 - JDK 7 u79
 - Maven
 - [Oracle WebLogic Server 12.1.3 (development only)](http://download.oracle.com/otn/nt/middleware/12c/wls/1213/wls1213_dev_update3.zip)
+- SOAPUI (opcional) para consumir los servicios
 
 Los siguientes recursos se proporcionan por USB:  
 - `settings.xml` (configuraciones de Maven)
@@ -41,19 +42,22 @@ mvn clean install -DskipTests
 3. Puerto de recepción: `8004`
 4. [Guardar]
 
-### [Crear JNDI](http://localhost:8004/console/console.portal?_nfpb=true&_pageLabel=GlobalJDBCDataSourceTablePage):
-1. Servicios/Orígenes de Datos
+### Crear JNDI
+1. [Servicios/Orígenes de Datos](http://localhost:8004/console/console.portal?_nfpb=true&_pageLabel=GlobalJDBCDataSourceTablePage)
 2. [Nuevo]/[Origen de Datos Genérico]
-3. Nombre de JNDI: `jdbc/miic/APPL_SNI`
-4. Tipo de Base de datos: `Oracle`
-5. Controlador de Base de datos: `Oracle's Driver (Thin) for Instance connections; Versions:Any` (Opción 5)
-6. Propiedades de la conexión (Obtener la información del archivo `miic-sni-web/src/main/resources/webapp/WEB-INF/config/spring/backend-db-context.xml`):
+3. Nombre: `JDBC Data Source-SNI`
+4. Nombre de JNDI: `jdbc/miic/APPL_SNI`
+5. Tipo de Base de datos: `Oracle`
+6. Controlador de Base de datos: `Oracle's Driver (Thin) for Instance connections; Versions:Any` (Opción 5)
+7. Propiedades de la conexión (Obtener la información del archivo `miic-sni-web/src/main/resources/webapp/WEB-INF/config/spring/backend-db-context.xml`):
 	- Nombre de la base de datos:
 	- Nombre del host:
 	- Puerto:
 	- Nombre de usuario de Base de Datos:
 	- Contraseña: 
 	- Seleccionar destinos: __Marcar la casilla de "AdminServer"__
+	- [Siguiente]
+	- Usa el botón **[Probar conexión]** para verificar que los datos de conexión son correctos
 	- [Terminar]
 
 ### Crear un servidor JMS
@@ -93,19 +97,24 @@ mvn clean install -DskipTests
 		
 ## Uso
 - Desplegar el archivo `sni/miic-sni-web/target/miic-sni-web.war` en el servidor Weblogic manualmente o utilizar un plugin para tu IDE que realice esa tarea
+- Verificar que se muestra el índice de servicios en [http://localhost:8004/miic-sni-web](http://localhost:8004/miic-sni-web)
 
 ### Autenticación
 Obtener el header `x-auth-token` de la respuesta de la siguiente petición (reemplazar `MY_USERNAME` y `MY_PASSWORD` por tus credenciales):
 
 	curl -v -XPOST -H "Content-type: application/json" -d '{"username": "MY_USERNAME", "password": "MY_PASSWORD", "grecaptcharesponse": ""}' 'http://172.22.13.228:7780/generador-api/auth/login'
 
-## FAQ
-- **Faltan dependencias de Oracle `ojdbc` y/o `xdb6`**  
-	También puedes instalar las dependencias de Oracle a mano:
-	- [Driver JDBC Oracle 11.2.0.1](http://download.oracle.com/otn/utilities_drivers/jdbc/11204/ojdbc6.jar)  
-			
-			mvn install:install-file -Dfile=ojdbc6.jar -DgroupId=com.oracle -DartifactId=xdb6 -Dversion=11.2.0.4 -Dpackaging=jar
-
-	- [Driver XDB6 Oracle](http://download.oracle.com/otn/utilities_drivers/jdbc/11204/xdb6.jar)
+## Preguntas frecuentes
+### Faltan dependencias de Oracle `ojdbc` y/o `xdb6`**  
+También puedes instalar las dependencias de Oracle a mano:
+- [Driver JDBC Oracle 11.2.0.1](http://download.oracle.com/otn/utilities_drivers/jdbc/11204/ojdbc6.jar)  
 		
-			mvn install:install-file -Dfile=xdb6.jar -DgroupId=com.oracle -DartifactId=xdb6 -Dversion=11.2.0.4 -Dpackaging=jar
+		mvn install:install-file -Dfile=ojdbc6.jar -DgroupId=com.oracle -DartifactId=xdb6 -Dversion=11.2.0.4 -Dpackaging=jar
+
+- [Driver XDB6 Oracle](http://download.oracle.com/otn/utilities_drivers/jdbc/11204/xdb6.jar)
+	
+		mvn install:install-file -Dfile=xdb6.jar -DgroupId=com.oracle -DartifactId=xdb6 -Dversion=11.2.0.4 -Dpackaging=jar
+
+### Problema con la variable de entorno APP_LOGS
+Una solución rápida es definir la ruta directamente en el archivo xml.  
+- En el archivo `sni/miic-sni-web/src/main/resources/log4j2.xml` reemplaza la línea `<Property name="log-path">${sys:APP_LOGS}</Property>` por `<Property name="log-path">${C:\Users\CONACYT\Documents\logs}</Property>` u otra ruta que contenga una subcarpeta `sni`
