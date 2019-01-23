@@ -14,88 +14,98 @@ Los siguientes recursos se proporcionan por USB:
 - Carpeta `configfiles`
 
 ## Instalación
-- Descargar el código fuente:
+### Descargar el código fuente:
 	
-		svn checkout http://172.16.6.194:8888/conacyt-svn/CYT_sni/SNI/trunk sni
+	svn checkout http://172.16.6.194:8888/conacyt-svn/CYT_sni/SNI/trunk sni
 
-- Copiar el archivo `settings.xml` a la carpeta `{MI_CARPETA_DE_USUARIO/.m2/}`. Eso sobreescribe configuraciones de Maven a nivel de usuario
+### Construir el proyecto:
 
-- Crear las variables de entorno requeridas:
-	- `MIIC_CONFIG={DIRECTORIO configfiles}` (ruta donde copiaste la carpeta `configfiles`)
-	- `APP_LOGS={CUALQUIER DIRECTORIO QUE CONTENGA UNA SUBCARPETA 'sni'}`
+```
+cd sni
+mvn clean install -DskipTests
+```
+### Sobreescribir configuraciones de Maven
+1. Copiar el archivo `settings.xml` a la carpeta `{MI_CARPETA_DE_USUARIO/.m2/}`. Esto sobreescribe configuraciones de Maven a nivel de usuario
 
-- Instalar el Servidor WebLogic 
-	1. Descomprimir `wls1213_dev.zip`
-	2. Seguir las instrucciones del `README.txt` para Linux o `README_WIN.txt` para Windows
+### Crear las variables de entorno requeridas:
+- `MIIC_CONFIG={DIRECTORIO configfiles}` (ruta donde copiaste la carpeta `configfiles`)
+- `APP_LOGS={CUALQUIER DIRECTORIO QUE CONTENGA UNA SUBCARPETA 'sni'}`
 
-- [Cambiar el puerto del Servidor WebLogic](http://localhost:7001/console/console.portal?_nfpb=true&_pageLabel=CoreServerServerTablePage)
-	1. [Entorno]/[Servidores]
-	2. Clic en [AdminServer]
-	3. Puerto de recepción: `8004`
-	4. [Guardar]
+### Instalar el Servidor WebLogic 
+1. Descomprimir el zip del **Oracle WebLogic Server 12.1.3**
+2. Seguir las instrucciones del `README.txt` para Linux o `README_WIN.txt` para Windows
 
-- [Crear JNDI](http://localhost:8004/console/console.portal?_nfpb=true&_pageLabel=GlobalJDBCDataSourceTablePage):
-	1. Servicios/Orígenes de Datos
-	2. [Nuevo]/[Origen de Datos Genérico]
-	3. Nombre de JNDI: `jdbc/miic/APPL_SNI`
-	4. Controlador de Base de datos: `Oracle's Driver (Thin) for Instance connections; Versions:Any` (Opción 5)
-	5. Propiedades de la conexión (Obtener la información del archivo `miic-sni-web/src/main/resources/webapp/WEB-INF/config/spring/backend-db-context.xml`):
-		- Nombre de la base de datos:
-		- Nombre del host:
-		- Puerto:
-		- Nombre de usuario de Base de Datos:
-		- Contraseña: 
-		- Seleccionar destinos: __Marcar la casilla de "AdminServer"__
-		- [Terminar]
+### Cambiar el puerto del Servidor WebLogic
+1. [Entorno/Servidores](http://localhost:7001/console/console.portal?_nfpb=true&_pageLabel=CoreServerServerTablePage)
+2. Clic en tu servidor
+3. Puerto de recepción: `8004`
+4. [Guardar]
 
-- [Crear un servidor JMS](http://localhost:8004/console/console.portal?_nfpb=true&_pageLabel=JmsServerJMSServerTablePage):
-	1. [Servicios]/[Mensajes]/[Servidores JMS]
-	2. [Nuevo]
-	3. Seleccionar Destinos/Destino: [AdminServer]
-	4. [Terminar]
+### [Crear JNDI](http://localhost:8004/console/console.portal?_nfpb=true&_pageLabel=GlobalJDBCDataSourceTablePage):
+1. Servicios/Orígenes de Datos
+2. [Nuevo]/[Origen de Datos Genérico]
+3. Nombre de JNDI: `jdbc/miic/APPL_SNI`
+4. Tipo de Base de datos: `Oracle`
+5. Controlador de Base de datos: `Oracle's Driver (Thin) for Instance connections; Versions:Any` (Opción 5)
+6. Propiedades de la conexión (Obtener la información del archivo `miic-sni-web/src/main/resources/webapp/WEB-INF/config/spring/backend-db-context.xml`):
+	- Nombre de la base de datos:
+	- Nombre del host:
+	- Puerto:
+	- Nombre de usuario de Base de Datos:
+	- Contraseña: 
+	- Seleccionar destinos: __Marcar la casilla de "AdminServer"__
+	- [Terminar]
 
-- [Crear un nuevo Módulo JMS](http://localhost:8004/console/console.portal?_nfpb=true&_pageLabel=JmsModulesTablePage)
-	1. [Servidores]/[Mensajes]/[Módulos JMS]
-	1. [Nuevo]
-	2. Nombre:
-	3. Destinos: __Marcar la casilla de "AdminServer"__
-	4. [Terminar]
+### Crear un servidor JMS
+1. [Servicios/Mensajes/Servidores JMS](http://localhost:8004/console/console.portal?_nfpb=true&_pageLabel=JmsServerJMSServerTablePage)
+2. [Nuevo]
+3. Seleccionar Destinos/Destino: [AdminServer]
+4. [Terminar]
 
-- Crear una fábrica de conexiones: 
-	1. Clic en el módulo JMS recién creado
-	2. [Nuevo]
-	3. Marcar la opción __Fábrica de conexiones__
-	4. Nombre del JNDI: `jms/DocuQueueConnectionFactory`
-	5. Terminar
+### Crear un nuevo Módulo JMS
+1. [Servicios/Mensajes/Módulos JMS](http://localhost:8004/console/console.portal?_nfpb=true&_pageLabel=JmsModulesTablePage)
+2. [Nuevo]
+3. Nombre:
+4. Destinos: __Marcar la casilla de "AdminServer"__
+5. [Terminar]
 
-- Crear colas de mensajes
-	- con los nombres de JNDI:
-		- `jms/DictamenDocsQueue`
-		- `jms/DocuQueue`
-		- `jms/ReconsideracionDocsQueue`
-	1. Clic en el módulo JMS recién creado
-	2. [Nuevo]
-	3. Marcar la opción __Cola__
-	4. Introducir el nombre del JNDI
-	5. Despliegues secundarios: [Creación de Nuevo Despliegue Secundario]
-	6. Seleccionar despliegue secundario recién creado
-	7. [Terminar]
+### Crear una fábrica de conexiones: 
+1. Clic en el módulo JMS recién creado
+2. [Nuevo]
+3. Marcar la opción __Fábrica de conexiones__
+4. Nombre del JNDI: `jms/DocuQueueConnectionFactory`
+5. Selecionar el servidor destino
+6. Terminar
+
+### Crear colas de mensajes
+1. Clic en el módulo JMS recién creado
+2. [Nuevo]
+3. Marcar la opción __Cola__
+4. Introducir el nombre del JNDI: `jms/DictamenDocsQueue`
+5. Despliegues secundarios: [Creación de Nuevo Despliegue Secundario]
+6. Seleccionar despliegue secundario recién creado
+7. Selecionar el servidor destino
+8. [Terminar]  
+
+- repetir los pasos anteriores para crear otras dos colas con los nombres de JNDI:
+	- `jms/DocuQueue`
+	- `jms/ReconsideracionDocsQueue`
 		
 ## Uso
-- Desplegar el archivo `sni/miic-sni-web` en el servidor Weblogic manualmente o utilizar un plugin para tu IDE que realice esa tarea
+- Desplegar el archivo `sni/miic-sni-web/target/miic-sni-web.war` en el servidor Weblogic manualmente o utilizar un plugin para tu IDE que realice esa tarea
 
 ### Autenticación
-Obtener el header `x-auth-token` de la respuesta de la siguiente petición:
+Obtener el header `x-auth-token` de la respuesta de la siguiente petición (reemplazar `MY_USERNAME` y `MY_PASSWORD` por tus credenciales):
 
-		curl -v -XPOST -H "Content-type: application/json" -d '{"username": "username", "password": "password", "grecaptcharesponse": ""}' 'http://172.22.13.228:7780/generador-api/auth/login'
+	curl -v -XPOST -H "Content-type: application/json" -d '{"username": "MY_USERNAME", "password": "MY_PASSWORD", "grecaptcharesponse": ""}' 'http://172.22.13.228:7780/generador-api/auth/login'
 
 ## FAQ
 - **Faltan dependencias de Oracle `ojdbc` y/o `xdb6`**  
 	También puedes instalar las dependencias de Oracle a mano:
-	- [Driver JDBC Oracle 11.2.0.1](https://www.oracle.com/technetwork/apps-tech/jdbc-112010-090769.html)  
+	- [Driver JDBC Oracle 11.2.0.1](http://download.oracle.com/otn/utilities_drivers/jdbc/11204/ojdbc6.jar)  
 			
 			mvn install:install-file -Dfile=ojdbc6.jar -DgroupId=com.oracle -DartifactId=xdb6 -Dversion=11.2.0.4 -Dpackaging=jar
 
-	- [Driver XDB6 Oracle](https://www.oracle.com/technetwork/apps-tech/jdbc-112010-090769.html)
+	- [Driver XDB6 Oracle](http://download.oracle.com/otn/utilities_drivers/jdbc/11204/xdb6.jar)
 		
 			mvn install:install-file -Dfile=xdb6.jar -DgroupId=com.oracle -DartifactId=xdb6 -Dversion=11.2.0.4 -Dpackaging=jar
