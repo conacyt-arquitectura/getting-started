@@ -7,7 +7,7 @@ Sistema Nacional de Investigadores
 - [Código fuente SNI](http://172.16.6.194:8888/conacyt-svn/CYT_sni/SNI/)
 - JDK 7 u79
 - Maven
-- [Oracle WebLogic Server 12.1.3 (development only)](http://download.oracle.com/otn/nt/middleware/12c/wls/1213/wls1213_dev_update3.zip)
+- [Oracle WebLogic Server 12.1.3 (solo para desarrollo)](https://www.oracle.com/technetwork/middleware/weblogic/downloads/wls-main-097127.html): Clic en **"DownloadZip distribution Update 3 for Mac OSX, Windows, and Linux (190 MB)"**
 - SOAPUI (opcional) para consumir los servicios
 
 Los siguientes recursos se proporcionan por USB:  
@@ -107,14 +107,15 @@ Obtener el header `x-auth-token` de la respuesta de la siguiente petición (reem
 ## Preguntas frecuentes
 ### Faltan dependencias de Oracle `ojdbc` y/o `xdb6`**  
 También puedes instalar las dependencias de Oracle a mano:
-- [Driver JDBC Oracle 11.2.0.1](http://download.oracle.com/otn/utilities_drivers/jdbc/11204/ojdbc6.jar)  
+- [Driver JDBC Oracle 11.2.0.1](https://www.oracle.com/technetwork/apps-tech/jdbc-112010-090769.html)  
 		
 		mvn install:install-file -Dfile=ojdbc6.jar -DgroupId=com.oracle -DartifactId=xdb6 -Dversion=11.2.0.4 -Dpackaging=jar
 
-- [Driver XDB6 Oracle](http://download.oracle.com/otn/utilities_drivers/jdbc/11204/xdb6.jar)
+- [Driver XDB6 Oracle](https://www.oracle.com/technetwork/apps-tech/jdbc-112010-090769.html)
 	
 		mvn install:install-file -Dfile=xdb6.jar -DgroupId=com.oracle -DartifactId=xdb6 -Dversion=11.2.0.4 -Dpackaging=jar
 
 ### Problema con la variable de entorno APP_LOGS
-Una solución rápida es definir la ruta directamente en el archivo xml.  
-- En el archivo `sni/miic-sni-web/src/main/resources/log4j2.xml` reemplaza la línea `<Property name="log-path">${sys:APP_LOGS}</Property>` por `<Property name="log-path">${C:\Users\CONACYT\Documents\logs}</Property>` u otra ruta que contenga una subcarpeta `sni`
+En el archivo `sni/miic-sni-web/src/main/resources/log4j2.xml` reemplaza la línea `<Property name="log-path">${sys:APP_LOGS}</Property>` por:  
+- `<Property name="log-path">${env:APP_LOGS}</Property>` para que busque APP_LOGS como variable de entorno
+- o `<Property name="log-path">${C:\Users\CONACYT\Documents\logs}</Property>` para definir de manera estática la ruta (esta carpeta debe contener una subcarpeta `sni`)
