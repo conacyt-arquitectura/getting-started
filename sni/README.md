@@ -105,7 +105,7 @@ Obtener el header `x-auth-token` de la respuesta de la siguiente petición (reem
 	curl -v -XPOST -H "Content-type: application/json" -d '{"username": "MY_USERNAME", "password": "MY_PASSWORD", "grecaptcharesponse": ""}' 'http://172.22.13.228:7780/generador-api/auth/login'
 
 ## Preguntas frecuentes
-### Faltan dependencias de Oracle `ojdbc` y/o `xdb6`**  
+### Faltan dependencias de Oracle `ojdbc` y/o `xdb6`  
 También puedes instalar las dependencias de Oracle a mano:
 - [Driver JDBC Oracle 11.2.0.1](https://www.oracle.com/technetwork/apps-tech/jdbc-112010-090769.html)  
 		
@@ -118,4 +118,7 @@ También puedes instalar las dependencias de Oracle a mano:
 ### Problema con la variable de entorno APP_LOGS
 En el archivo `sni/miic-sni-web/src/main/resources/log4j2.xml` reemplaza la línea `<Property name="log-path">${sys:APP_LOGS}</Property>` por:  
 - `<Property name="log-path">${env:APP_LOGS}</Property>` para que busque APP_LOGS como variable de entorno
-- o `<Property name="log-path">${C:\Users\CONACYT\Documents\logs}</Property>` para definir de manera estática la ruta (esta carpeta debe contener una subcarpeta `sni`)
+- ó `<Property name="log-path">${C:\Users\CONACYT\Documents\logs}</Property>` para definir de manera estática la ruta (esta carpeta debe contener una subcarpeta `sni`)
+
+### Could not obtain the localhost address. The most likely cause is an error in the network configuration of this machine
+Clic para ver la [Solución](https://blogs.oracle.com/luzmestre/javalangassertionerror:-could-not-obtain-the-localhost-address-in-a-new-12c-install)
