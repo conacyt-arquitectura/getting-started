@@ -1,5 +1,5 @@
 # Diccionario de servicios
-En esta sección encontrará un listado de los servicios comunes que puede usar en su aplicativo.
+En esta sección encontrará un listado de los servicios que comunmente se usan en el SNI y que puede resultar de utilidad para el mantenimiento o creación de un nuevo servicio.
 
 <ol type="1">
   <li>Catálogos</li>
@@ -10,17 +10,29 @@ En esta sección encontrará un listado de los servicios comunes que puede usar 
   Contexto: componentes-comunes-web/ws/EnvioNotificacionService
   <li>Firma Electrónica</li>
   Contexto: componentes-comunes-web/ws/FirmaElectronica
+</ol>
+
+  Los servicios mencionados anteriormente se encuentran publicados en los siguientes proyectos web, donde también se define la ip del ambiente de desarrollo:
+
+<ol type="1">
   <li>Transversales</li>
-  Aquí se encuentran los servicios para la firma Electrónica, el generador de reportes con JasperReports, la interfaz de comunicación con el cms(sharepoint microsoft), entre otros.
-  El la url para este recurso se compone de la siguiente forma:
-  Esta entrada se encuentra definida en el archivod de propiedades miic.properties
+  Aquí se alojan los servicios para la firma Electrónica, el generador de reportes con JasperReports, la interfaz de comunicación con el cms(sharepoint microsoft), entre otros.
+  La url para este recurso se compone de la siguiente manera:
+
   ipTransversales=http://172.22.13.228:7780/
-  y el contexto para consumir los recursos es el siguiente:
-  componentes-transversales-web/ws/
+  contexto: componentes-transversales-web/ws
+
+  Esta entrada se encuentra definida en el archivo de propiedades miic.properties
+
   <li>Catálogos</li>
-  La definición de los catálogos institucionales: área, campos, disciplina, subdisciplina, entre otros.
+  Aquí se encuentra la definición de los catálogos institucionales de: área, campos, disciplina, subdisciplina, entre otros.
+  ipCatalogos=http://172.22.13.228:7780/
+  contexto: servicios-catalogos-web/ws
+
   <li>Comunes</li>
-  Aquí se encuentra los servicios de notificaciones, la conexión con RENAPO, los servicios de auditoría y seguridad.  
+  Aquí se encuentra los servicios de notificaciones, la conexión con RENAPO, los servicios de auditoría y seguridad.
+  ipCatalogos=http://172.22.13.228:7780/
+  contexto: componentes-comunes-web/ws    
 </ol>
 
 # Implementación
