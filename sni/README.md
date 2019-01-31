@@ -122,3 +122,14 @@ En el archivo `sni/miic-sni-web/src/main/resources/log4j2.xml` reemplaza la lín
 
 ### Could not obtain the localhost address. The most likely cause is an error in the network configuration of this machine
 Clic para ver la [Solución](https://blogs.oracle.com/luzmestre/javalangassertionerror:-could-not-obtain-the-localhost-address-in-a-new-12c-install)
+
+### ¿Cómo depurar el código JS en el front-end?
+En la url de la aplicación sustituye la palabra `index` por `dev` para cargar el código JavaScript sin minificar ni ofuscar.
+
+### El front-end no realiza la petición a mi servidor local
+Algunas de las posibles soluciones son:
+- Asegúrate de haber modificado el __servicio__ en la base de datos para que apunte a tu servidor local (el campo `ruta_servicio` de la tabla `cat_servicio`)
+- Asegúrate de que tu servidor local esté escuchando en un puerto dentro del rango __8001 - 8015__, de otra manera no funcionará.
+
+### ¿Cómo recargar una pantalla sin que me regrese a la pantalla de autenticación?
+Simula un envío de parámetros añadiendo un signo `?` al final de la url
