@@ -4,7 +4,7 @@ Sistema Nacional de Investigadores
 
 ## Requerimientos
 - Cliente SVN
-- [Código fuente SNI](http://172.16.6.194:8888/conacyt-svn/CYT_sni/SNI/trunk)
+- [Código fuente UI](http://172.16.6.194:8888/conacyt-svn/CYT_componentes_transversales-conaCYT_ui/branches/CYT_componentes-transversales-conacyt_ui_13072015)
 - JDK 7 u79
 - Maven
 - [Servidor Tomcat 7](https://tomcat.apache.org/download-70.cgi) u [Oracle WebLogic Server 12.1.3 (solo para desarrollo)](https://www.oracle.com/technetwork/middleware/weblogic/downloads/wls-main-097127.html): Clic en **"DownloadZip distribution Update 3 for Mac OSX, Windows, and Linux (190 MB)"**
@@ -15,7 +15,7 @@ Los siguientes recursos se proporcionan por USB:
 ## Instalación
 ### Descargar el código fuente:
 	
-	svn checkout http://172.16.6.194:8888/conacyt-svn/CYT_sni/SNI/trunk ui
+	svn checkout http://172.16.6.194:8888/conacyt-svn/CYT_componentes_transversales-conaCYT_ui/branches/CYT_componentes-transversales-conacyt_ui_13072015 ui
 
 ### Construir el proyecto:
 ```
