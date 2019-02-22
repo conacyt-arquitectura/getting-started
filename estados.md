@@ -10,6 +10,8 @@
 :arrow_forward: Asignado a...
 
 
+## Estados de atención a una incidencia:
+
 :ballot_box_with_check: Validado
 
 :white_check_mark: Atendido
