@@ -7,7 +7,7 @@ Sistema Nacional de Investigadores
 - [Código fuente SNI](http://172.16.6.194:8888/conacyt-svn/CYT_sni/SNI/)
 - JDK 7 u79
 - Maven
-- [Oracle WebLogic Server 12.1.3 (solo para desarrollo)](https://www.oracle.com/technetwork/middleware/weblogic/downloads/wls-main-097127.html): Clic en **"DownloadZip distribution Update 3 for Mac OSX, Windows, and Linux (190 MB)"**
+- [Oracle WebLogic Server 12.1.3 (solo para desarrollo)](https://www.oracle.com/technetwork/middleware/weblogic/downloads/wls-main-097127.html): Clic en **"Zip distribution Update 3 for Mac OSX, Windows, and Linux (190 MB)"**
 - SOAPUI (opcional) para consumir los servicios
 
 Los siguientes recursos se proporcionan por USB:  
@@ -17,7 +17,7 @@ Los siguientes recursos se proporcionan por USB:
 ## Instalación
 ### Descargar el código fuente:
 	
-	svn checkout http://172.16.6.194:8888/conacyt-svn/CYT_sni/SNI/trunk sni
+	svn checkout --username={MI_NOMBRE_DE_USUARIO} http://172.16.6.194:8888/conacyt-svn/CYT_sni/SNI/trunk sni
 
 ### Construir el proyecto:
 
@@ -55,16 +55,18 @@ mvn clean install -DskipTests
 	- Puerto:
 	- Nombre de usuario de Base de Datos:
 	- Contraseña: 
-	- Seleccionar destinos: __Marcar la casilla de "AdminServer"__
-	- [Siguiente]
 	- Usa el botón **[Probar conexión]** para verificar que los datos de conexión son correctos
+	- [Siguiente]
+	- Seleccionar destinos: __Marcar la casilla de "AdminServer"__
 	- [Terminar]
 
 ### Crear un servidor JMS
 1. [Servicios/Mensajes/Servidores JMS](http://localhost:8004/console/console.portal?_nfpb=true&_pageLabel=JmsServerJMSServerTablePage)
 2. [Nuevo]
-3. Seleccionar Destinos/Destino: [AdminServer]
-4. [Terminar]
+3. Nombre: 
+4. [Siguiente]
+5. Seleccionar Destinos/Destino: [AdminServer]
+6. [Terminar]
 
 ### Crear un nuevo Módulo JMS
 1. [Servicios/Mensajes/Módulos JMS](http://localhost:8004/console/console.portal?_nfpb=true&_pageLabel=JmsModulesTablePage)
