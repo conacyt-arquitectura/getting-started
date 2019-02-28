@@ -34,7 +34,7 @@ mvn clean install -DskipTests
 
 ### Instalar el Servidor WebLogic 
 1. Descomprimir el zip del **Oracle WebLogic Server 12.1.3**
-2. Seguir las instrucciones del `README.txt` para Linux o `README_WIN.txt` para Windows
+2. Seguir las instrucciones del `README.txt` para Linux o `README_WIN.txt` para Windows. Es recomendable no crear un dominio por defecto mediante consola, en su lugar se puede utilizar la interfaz gráfica ejecutando `wlserver/common/bin/config.{sh|cmd}`
 
 ### Cambiar el puerto del Servidor WebLogic
 1. [Entorno/Servidores](http://localhost:7001/console/console.portal?_nfpb=true&_pageLabel=CoreServerServerTablePage)
