@@ -19,14 +19,14 @@ Los siguientes recursos se proporcionan por USB:
 	
 	svn checkout --username={MI_NOMBRE_DE_USUARIO} http://172.16.6.194:8888/conacyt-svn/CYT_sni/SNI/trunk sni
 
+### Sobreescribir configuraciones de Maven
+1. Copiar el archivo `settings.xml` a la carpeta `{MI_CARPETA_DE_USUARIO/.m2/}`. Esto sobreescribe configuraciones de Maven a nivel de usuario
 ### Construir el proyecto:
 
 ```
 cd sni
 mvn clean install -DskipTests
 ```
-### Sobreescribir configuraciones de Maven
-1. Copiar el archivo `settings.xml` a la carpeta `{MI_CARPETA_DE_USUARIO/.m2/}`. Esto sobreescribe configuraciones de Maven a nivel de usuario
 
 ### Crear las variables de entorno requeridas:
 - `MIIC_CONFIG={DIRECTORIO configfiles}` (ruta donde copiaste la carpeta `configfiles`)
