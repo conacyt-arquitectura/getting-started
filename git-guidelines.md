@@ -1,4 +1,4 @@
-Lineamientos generales para el versionamiento de  código
+# Lineamientos generales para el versionamiento de  código
 
 1. Un número normal de versión **DEBE** tomar la forma `X.Y.Z` donde `X`, `Y`, y `Z` son enteros no negativos. `X` es la versión **“major”**, `Y` es la versión **“minor”**, y `Z` es la versión **“patch”**. Cada elemento **DEBE** incrementarse numéricamente en incrementos de 1. Por ejemplo: `1.9.0` -> `1.10.0` -> `1.11.0`
 
@@ -19,3 +19,133 @@ Lineamientos generales para el versionamiento de  código
 9. La `metadata de build` **PUEDE** ser representada adjuntando un signo más y una serie de identificadores separados por puntos inmediatamente después de la versión `patch` o la `pre-release`. Los identificadores **DEBEN** consistir sólo de caracteres **ASCII** alfanuméricos y el guión `[0-9A-Za-z-]`. Los `meta-datos de build` **DEBIERAN** ser ignorados cuando se intenta determinar precedencia de versiones. Luego, dos paquetes con la misma versión pero distinta metadata de build se consideran la misma versión. Ejemplos: `1.0.0-alpha+001`, `1.0.0+20130313144700`, `1.0.0-beta+exp.sha.5114f85`
 
 10. La precedencia se refiere a como son comparadas dos versiones una con la otra cuando son ordeandas. La precedencia **DEBE** ser calculada separando la _versión en major_, _minor_, _patch_ e identificadores `pre-release` en ese orden (La metadata de build no figuran en la precedencia). Las versiones `major`, `minor`, y `patch` son siempre comparadas numéricamente. La precedencia de `pre-release` **DEBE** ser determinada comparando cada identificador separado por puntos de la siguiente manera: los identificadores que solo consisten de números son comparados numéricamente y los identificadores con letras o guiones son comparados de acuerdo al orden establecido por **ASCII**. Los identificadores numéricos siempre tienen una precedencia menor que los no-numéricos. Ejemplo: `1.0.0-alpha` `<` `1.0.0-alpha.1` `<` `1.0.0-beta.2` `<` `1.0.0-beta.11` `<` `1.0.0-rc.1` `<` `1.0.0`
+
+# Desarrollo
+
+## fase (inicio)
+
+inicialización
+
+```bash
+crearRama('from=empty', 'master')
+```
+
+#### - individual
+
+```bash
+clonar(master)
+version('0.0.1-SNAPSHOT', pom.xml )-commit-publish
+```
+
+flujo <increment> (master):
+```bash
+<ciclo>[update-]develop-commit[-publish]
+```
+
+flujo <release> (release-arquitectura):
+-prev
+```bash
+create('branch', 'release-arquitectura')
+version('0.0.z-RC')-commit[-publish]
+build('0.0.z-RC+dev#hash')
+build('0.0.z-RC+qa#hash)
+build('0.0.z-RC+prod#hash')
+```
+
+-subFlujo pruebas (release-arquitectura) :
+
+```bash
+foreach(enviroment = {'qa'})
+    until enviroment is stable:
+         test-report-solve-version('0.0.(z+1)-RC', pom.xml)-commit-publish]
+          build('0.0.z-RC+enviroment #hash')
+```
+
+-subFlujo pruebas finalización (release-arquitectura) :
+
+```bash
+version('0.0.z-RELEASE', pom.xml)-commit[-publish]
+merge('release-arquitectura', 'master')-tag('0.0.z')
+```
+
+-publish
+
+```bash
+build('0.0.z-RELEASE+dev#hash')-publish(dev)
+build('0.0.z-RELEASE+qa#hash')-publish(qa)
+build('0.0.z-RELEASE+prod#hash')-publish(prod)
+crearRama('from=master', 'develop') ->>integration
+version('0.0.z-SNAPSHOT', pom.xml)-commit[-publish]
+publish('develop')
+```
+
+Terminación
+- individual
+
+```bash
+usarRama('develop')
+```
+
+# DESARROLLO
+
+fase (desarrollo)*
+-inicialización
+
+```bash
+crearRama(from='develop', 'feature-[nombre]')
+version('0.(y+1).0-SNAPSHOT', pom.xml )-commit-publish
+```
+
+- individual
+```bash
+clonar('feature-[nombre]')
+```
+
+flujo increment (feature-[nombre]): (it-increment)
+
+```bash
+<ciclo>[update-]develop-commit[-publish]
+```
+
+flujo release (release-[nombre]):
+-prev
+
+```bash
+merge('feature-[nombre]', 'develop')-publish
+crearRama('from=develop, 'release-[nombre]')
+version('0.y.0-RC')-commit[-publish]
+build('0.y.0-RC+dev#hash')
+build('0.y.0-RC+qa#hash)
+build('0.y.0-RC+prod#hash')
+```
+
+-subFlujo pruebas (release-[nombre]) :
+```bash
+<ciclo> test-report-solve-version('0.y.(z+1)-RC', pom.xml)-commit-publish]
+```
+
+-subFlujo pruebas finalización (release-[nombre]) :
+
+```bash
+version('0.y.z-RELEASE', pom.xml)-commit[-publish]
+merge('release-[nombre]', 'master')-tag('0.y.z')
+```
+
+-publish
+```bash
+merge('release-[nombre]', 'develop')-publish
+build('0.y.z-RELEASE+dev#hash')-publish(dev)
+build('0.y.z-RELEASE+qa#hash')-publish(qa)
+build('0.y.z-RELEASE+prod#hash')-publish(prod)
+eliminarRama('release-[nombre]')
+```
+preparar siguiente incremento
+
+```bash
+version('0.y.z-SNAPSHOT', pom.xml)-commit[-publish]
+publish('develop')
+```
+
+Terminación
+- individual
+cambiar a rama develop
