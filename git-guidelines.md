@@ -2,6 +2,7 @@
 
 1. [Lineamientos Generales](#lineamientos-generales)
 2. [Fase de Inicio](#fase-inicio)
+    - 2.1 [Fase de Inicio]
 3. [Third Example](#third-example)
 
 <a name="lineamientos-generales"></a>
@@ -29,9 +30,9 @@
 
 <a name="fase-inicio"></a>
 
-## 1. Fase de  Inicio
+# Fase de  Inicio
 
-## inicialización
+## 1. inicialización
 
 ```bash
 crearRama('from=empty', 'master')
@@ -44,25 +45,25 @@ clonar(master)
 version('0.0.1-SNAPSHOT', pom.xml )-commit-publish
 ```
 
-## flujo **increment** (master):
+## 2. flujo **increment** (arquitectura):
 
 ```bash
-<ciclo>[update-]develop-commit[-publish]
+[update-]develop-commit[-publish]
 ```
 
-flujo **release** (release-arquitectura):
+## 3. flujo **release** (release-arquitectura):
 
--prev
+#### 3.1 Inicialización
 
 ```bash
 create('branch', 'release-arquitectura')
 version('0.0.z-RC')-commit[-publish]
 build('0.0.z-RC+dev#hash')
-build('0.0.z-RC+qa#hash)
+build('0.0.z-RC+qa#hash')
 build('0.0.z-RC+prod#hash')
 ```
 
--subFlujo pruebas (release-arquitectura) :
+#### 3.1 SubFlujo Pruebas (release-arquitectura) :
 
 ```bash
 foreach(enviroment = {'qa'})
@@ -71,77 +72,83 @@ foreach(enviroment = {'qa'})
           build('0.0.z-RC+enviroment #hash')
 ```
 
--subFlujo pruebas finalización (release-arquitectura) :
+#### 3.2 SubFlujo Pruebas Finalización (release-arquitectura) :
 
 ```bash
 version('0.0.z-RELEASE', pom.xml)-commit[-publish]
 merge('release-arquitectura', 'master')-tag('0.0.z')
 ```
 
--publish
+#### 3.3. Publicación
 
 ```bash
 build('0.0.z-RELEASE+dev#hash')-publish(dev)
 build('0.0.z-RELEASE+qa#hash')-publish(qa)
 build('0.0.z-RELEASE+prod#hash')-publish(prod)
-crearRama('from=master', 'develop') ->>integration
+crearRama('from=master', 'develop')
 version('0.0.z-SNAPSHOT', pom.xml)-commit[-publish]
 publish('develop')
 ```
 
-Terminación
-- individual
+## 4. Terminación
+
+#### individual
 
 ```bash
 usarRama('develop')
 ```
 
-# DESARROLLO
+---
 
-fase (desarrollo)*
--inicialización
+# Fase de Desarrollo
+
+## 1. Inicialización
 
 ```bash
 crearRama(from='develop', 'feature-[nombre]')
 version('0.(y+1).0-SNAPSHOT', pom.xml )-commit-publish
 ```
 
-- individual
+#### individual
+
 ```bash
 clonar('feature-[nombre]')
 ```
 
-flujo increment (feature-[nombre]): (it-increment)
+## 2. Flujo increment (feature-[nombre]):
 
 ```bash
 <ciclo>[update-]develop-commit[-publish]
 ```
 
-flujo release (release-[nombre]):
--prev
+## 3. Flujo Release (release-[nombre]):
+
+#### 3.1 Inicialización
 
 ```bash
 merge('feature-[nombre]', 'develop')-publish
-crearRama('from=develop, 'release-[nombre]')
+crearRama('from=develop', 'release-[nombre]')
 version('0.y.0-RC')-commit[-publish]
 build('0.y.0-RC+dev#hash')
-build('0.y.0-RC+qa#hash)
+build('0.y.0-RC+qa#hash')
 build('0.y.0-RC+prod#hash')
 ```
 
--subFlujo pruebas (release-[nombre]) :
+#### 3.2 SubFlujo Pruebas (release-[nombre]) :
+
 ```bash
 <ciclo> test-report-solve-version('0.y.(z+1)-RC', pom.xml)-commit-publish]
 ```
 
--subFlujo pruebas finalización (release-[nombre]) :
+#### 3.3 SubFlujo Pruebas Finalización (release-[nombre]) :
 
 ```bash
 version('0.y.z-RELEASE', pom.xml)-commit[-publish]
 merge('release-[nombre]', 'master')-tag('0.y.z')
 ```
 
--publish
+#### 3.4 Publicar
+
 ```bash
 merge('release-[nombre]', 'develop')-publish
 build('0.y.z-RELEASE+dev#hash')-publish(dev)
@@ -149,13 +156,18 @@ build('0.y.z-RELEASE+qa#hash')-publish(qa)
 build('0.y.z-RELEASE+prod#hash')-publish(prod)
 eliminarRama('release-[nombre]')
 ```
-preparar siguiente incremento
+
+preparar el siguiente incremento
 
 ```bash
 version('0.y.z-SNAPSHOT', pom.xml)-commit[-publish]
 publish('develop')
 ```
 
-Terminación
-- individual
-cambiar a rama develop
+## 4. Terminación
+
+#### individual
+
+```bash
+usarRama('develop')
+```
