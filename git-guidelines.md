@@ -22,10 +22,8 @@
 
 
 # Desarrollo
-___
 
 ## fase (inicio)
----
 
 ## inicialización
 
@@ -41,6 +39,7 @@ version('0.0.1-SNAPSHOT', pom.xml )-commit-publish
 ```
 
 ## flujo **increment** (master):
+
 
 ```bash
 <ciclo>[update-]develop-commit[-publish]
