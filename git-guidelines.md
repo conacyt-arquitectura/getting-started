@@ -16,34 +16,40 @@
 
 8. Una versión `pre-release` **PUEDE** ser representada por adjuntar un guión y una serie de identificadores separados por puntos inmediatamente después de la versión `patch`. Los identificadores **DEBEN** consistir solo de caracteres **ASCII** alfanuméricos y el guión `[0-9A-Za-z-]`. Las versiones `pre-release` satisfacen pero tienen una menor precedencia que la versión normal asociada.Ejemplos: `1.0.0-alpha`, `1.0.0-alpha.1`, `1.0.0-0.3.7`, `1.0.0-x.7.z.92`
 
-9. La `metadata de build` **PUEDE** ser representada adjuntando un signo más y una serie de identificadores separados por puntos inmediatamente después de la versión `patch` o la `pre-release`. Los identificadores **DEBEN** consistir sólo de caracteres **ASCII** alfanuméricos y el guión `[0-9A-Za-z-]`. Los `meta-datos de build` **DEBIERAN** ser ignorados cuando se intenta determinar precedencia de versiones. Luego, dos paquetes con la misma versión pero distinta metadata de build se consideran la misma versión. Ejemplos: `1.0.0-alpha+001`, `1.0.0+20130313144700`, `1.0.0-beta+exp.sha.5114f85`
+9. Los `meta-datos` del `build` **PUEDE** ser representada adjuntando un signo más y una serie de identificadores separados por puntos inmediatamente después de la versión `patch` o la `pre-release`. Los identificadores **DEBEN** consistir sólo de caracteres **ASCII** alfanuméricos y el guión `[0-9A-Za-z-]`. Los `meta-datos` del `build` **DEBIERAN** ser ignorados cuando se intenta determinar precedencia de versiones. Luego, dos paquetes con la misma versión pero distinta metadata de build se consideran la misma versión. Ejemplos: `1.0.0-alpha+001`, `1.0.0+20130313144700`, `1.0.0-beta+exp.sha.5114f85`
 
-10. La precedencia se refiere a como son comparadas dos versiones una con la otra cuando son ordeandas. La precedencia **DEBE** ser calculada separando la _versión en major_, _minor_, _patch_ e identificadores `pre-release` en ese orden (La metadata de build no figuran en la precedencia). Las versiones `major`, `minor`, y `patch` son siempre comparadas numéricamente. La precedencia de `pre-release` **DEBE** ser determinada comparando cada identificador separado por puntos de la siguiente manera: los identificadores que solo consisten de números son comparados numéricamente y los identificadores con letras o guiones son comparados de acuerdo al orden establecido por **ASCII**. Los identificadores numéricos siempre tienen una precedencia menor que los no-numéricos. Ejemplo: `1.0.0-alpha` `<` `1.0.0-alpha.1` `<` `1.0.0-beta.2` `<` `1.0.0-beta.11` `<` `1.0.0-rc.1` `<` `1.0.0`
+10. La precedencia se refiere a como son comparadas dos versiones una con la otra cuando son ordeandas. La precedencia **DEBE** ser calculada separando la _versión en major_, _minor_, _patch_ e identificadores `pre-release` en ese orden (La `meta-data` del `build` no figura en la precedencia). Las versiones `major`, `minor`, y `patch` son siempre comparadas numéricamente. La precedencia de `pre-release` **DEBE** ser determinada comparando cada identificador separado por puntos de la siguiente manera: los identificadores que solo consisten de números son comparados numéricamente y los identificadores con letras o guiones son comparados de acuerdo al orden establecido por **ASCII**. Los identificadores numéricos siempre tienen una precedencia menor que los no-numéricos. Ejemplo: `1.0.0-alpha` `<` `1.0.0-alpha.1` `<` `1.0.0-beta.2` `<` `1.0.0-beta.11` `<` `1.0.0-rc.1` `<` `1.0.0`
+
 
 # Desarrollo
+___
 
 ## fase (inicio)
+---
 
-inicialización
+## inicialización
 
 ```bash
 crearRama('from=empty', 'master')
 ```
 
-#### - individual
+#### individual
 
 ```bash
 clonar(master)
 version('0.0.1-SNAPSHOT', pom.xml )-commit-publish
 ```
 
-flujo <increment> (master):
+## flujo **increment** (master):
+
 ```bash
 <ciclo>[update-]develop-commit[-publish]
 ```
 
-flujo <release> (release-arquitectura):
+flujo **release** (release-arquitectura):
+
 -prev
+
 ```bash
 create('branch', 'release-arquitectura')
 version('0.0.z-RC')-commit[-publish]
