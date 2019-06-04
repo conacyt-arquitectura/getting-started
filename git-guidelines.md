@@ -1,4 +1,11 @@
-# Lineamientos generales para el versionamiento de  código
+# Tabla de Contenido
+
+1. [Lineamientos Generales](#lineamientos-generales)
+2. [Fase de Inicio](#fase-inicio)
+3. [Third Example](#third-example)
+
+<a name="lineamientos-generales"></a>
+## Lineamientos Generales
 
 1. Un número normal de versión **DEBE** tomar la forma `X.Y.Z` donde `X`, `Y`, y `Z` son enteros no negativos. `X` es la versión **“major”**, `Y` es la versión **“minor”**, y `Z` es la versión **“patch”**. Cada elemento **DEBE** incrementarse numéricamente en incrementos de 1. Por ejemplo: `1.9.0` -> `1.10.0` -> `1.11.0`
 
@@ -20,10 +27,9 @@
 
 10. La precedencia se refiere a como son comparadas dos versiones una con la otra cuando son ordeandas. La precedencia **DEBE** ser calculada separando la _versión en major_, _minor_, _patch_ e identificadores `pre-release` en ese orden (La `meta-data` del `build` no figura en la precedencia). Las versiones `major`, `minor`, y `patch` son siempre comparadas numéricamente. La precedencia de `pre-release` **DEBE** ser determinada comparando cada identificador separado por puntos de la siguiente manera: los identificadores que solo consisten de números son comparados numéricamente y los identificadores con letras o guiones son comparados de acuerdo al orden establecido por **ASCII**. Los identificadores numéricos siempre tienen una precedencia menor que los no-numéricos. Ejemplo: `1.0.0-alpha` `<` `1.0.0-alpha.1` `<` `1.0.0-beta.2` `<` `1.0.0-beta.11` `<` `1.0.0-rc.1` `<` `1.0.0`
 
+<a name="fase-inicio"></a>
 
-# Desarrollo
-
-## fase (inicio)
+## 1. Fase de  Inicio
 
 ## inicialización
 
@@ -39,7 +45,6 @@ version('0.0.1-SNAPSHOT', pom.xml )-commit-publish
 ```
 
 ## flujo **increment** (master):
-
 
 ```bash
 <ciclo>[update-]develop-commit[-publish]
